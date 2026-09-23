@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import logo from "@/assets/image.png";
 
 const navItems = [
@@ -20,6 +21,16 @@ const footerServices = [
 ];
 
 export default function FooterSection() {
+  const [openSections, setOpenSections] = useState({
+    navigate: true,
+    pillars: true,
+    contact: true,
+  });
+
+  const toggleSection = (key) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   return (
     <footer className="footer-section">
       <div className="container footer-top">
@@ -66,42 +77,96 @@ export default function FooterSection() {
         </div>
 
         <div className="footer-links">
-          <div>
-            <span className="footer-label">Navigate</span>
+          {/* 2-Column Mobile Group for Navigate and Core Pillars */}
+          <div className="footer-nav-pillars-group">
+            <div className="footer-col">
+              <button
+                type="button"
+                className="footer-col-header"
+                onClick={() => toggleSection("navigate")}
+              >
+                <span className="footer-label">Navigate</span>
+                <ChevronDown
+                  size={16}
+                  className={`footer-chevron ${openSections.navigate ? "rotated" : ""}`}
+                />
+              </button>
 
-            {navItems.map(([label, path]) => (
-              <Link key={path} to={path}>
-                {label}
-              </Link>
-            ))}
+              {openSections.navigate && (
+                <div className="footer-col-links">
+                  {navItems.map(([label, path]) => (
+                    <Link key={path} to={path} className="footer-link-item">
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="footer-col">
+              <button
+                type="button"
+                className="footer-col-header"
+                onClick={() => toggleSection("pillars")}
+              >
+                <span className="footer-label">Core Pillars</span>
+                <ChevronDown
+                  size={16}
+                  className={`footer-chevron ${openSections.pillars ? "rotated" : ""}`}
+                />
+              </button>
+
+              {openSections.pillars && (
+                <div className="footer-col-links">
+                  {footerServices.map((service) => (
+                    <Link
+                      key={service}
+                      to="/services"
+                      className="footer-link-item"
+                    >
+                      {service}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          <div>
-            <span className="footer-label">Core Pillars</span>
-
-            {footerServices.map((service) => (
-              <Link key={service} to="/services">
-                {service}
-              </Link>
-            ))}
-          </div>
-
-          <div>
-            <span className="footer-label">Contact & Ports</span>
-
-            <a href="tel:+919995406130">+91 9995406130</a>
-
-            <a href="tel:+919447736001">+91 9447736001</a>
-
-            <span
-              style={{
-                fontSize: "11px",
-                color: "var(--sky)",
-                marginTop: "8px",
-              }}
+          <div className="footer-col footer-contact-col">
+            <button
+              type="button"
+              className="footer-col-header"
+              onClick={() => toggleSection("contact")}
             >
-              Cochin • Vizhinjam • Chennai
-            </span>
+              <span className="footer-label">Contact & Ports</span>
+              <ChevronDown
+                size={16}
+                className={`footer-chevron ${openSections.contact ? "rotated" : ""}`}
+              />
+            </button>
+
+            {openSections.contact && (
+              <div className="footer-col-links">
+                <a href="tel:+919995406130" className="footer-link-item">
+                  +91 9995406130
+                </a>
+
+                <a href="tel:+919447736001" className="footer-link-item">
+                  +91 9447736001
+                </a>
+
+                <span
+                  style={{
+                    fontSize: "11px",
+                    color: "var(--sky)",
+                    marginTop: "8px",
+                    display: "inline-block",
+                  }}
+                >
+                  Cochin • Vizhinjam • Chennai
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -114,7 +179,7 @@ export default function FooterSection() {
           Cochin&nbsp;&nbsp;&nbsp; India
         </span>
 
-        <span>
+        <span className="footer-forward-link">
           Made to move forward <ArrowRight size={14} />
         </span>
       </div>

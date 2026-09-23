@@ -4,9 +4,17 @@ import FooterSection from "@/components/sections/FooterSection";
 
 export default function Layout() {
   return (
-    <div className="site-shell">
+    <div
+      className="site-shell"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        position: "relative",
+      }}
+    >
       <Navbar />
-      <main>
+      <main style={{ flex: "1 0 auto", position: "relative", zIndex: 1 }}>
         <Outlet />
       </main>
       <FooterSection />

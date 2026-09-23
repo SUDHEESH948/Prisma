@@ -34,11 +34,15 @@ export default function Navbar({
 
   useEffect(() => {
     setMenuOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, setMenuOpen]);
 
   return (
     <>
-      <header className={`site-nav ${scrolled ? "site-nav-scrolled" : ""}`}>
+      <header
+        className={`site-nav ${
+          scrolled || location.pathname !== "/" ? "site-nav-scrolled" : ""
+        }`}
+      >
         <Link
           className="brand-lockup"
           to="/"

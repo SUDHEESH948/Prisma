@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Search,
-  CheckCircle2,
-  Clock,
-  Ship,
-  FileCheck2,
-  ShieldAlert,
-  ArrowRight,
-} from "lucide-react";
+import { CheckCircle2, Clock, Ship, FileCheck2 } from "lucide-react";
 import { Eyebrow, Reveal } from "./shared";
 
 const sampleShipments = [
@@ -78,22 +70,14 @@ const sampleShipments = [
 
 export default function TechnologySection() {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [trackingInput, setTrackingInput] = useState("");
   const current = sampleShipments[activeIdx];
 
   return (
     <section
       className="technology-section section-ink"
-      style={{ padding: "120px 0" }}
+      style={{ padding: "clamp(60px, 8vw, 120px) 0" }}
     >
-      <div
-        className="container technology-grid"
-        style={{
-          gridTemplateColumns: "0.9fr 1.1fr",
-          gap: "60px",
-          alignItems: "center",
-        }}
-      >
+      <div className="container technology-grid">
         <Reveal>
           <Eyebrow light>Shipment Visibility & Compliance</Eyebrow>
 
@@ -286,17 +270,7 @@ export default function TechnologySection() {
               transition={{ duration: 0.3 }}
             >
               {/* Header Info */}
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "16px",
-                  marginBottom: "24px",
-                  background: "rgba(255,255,255,0.03)",
-                  padding: "16px",
-                  borderRadius: "6px",
-                }}
-              >
+              <div className="tracking-header-grid">
                 <div>
                   <div
                     style={{
@@ -385,22 +359,23 @@ export default function TechnologySection() {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.08, duration: 0.3 }}
+                      className="milestone-status-row"
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "12px",
-                        padding: "10px 14px",
+                        gap: "14px",
+                        padding: "14px 16px",
                         background: m.done
-                          ? "rgba(8, 126, 153, 0.15)"
+                          ? "rgba(8, 126, 153, 0.16)"
                           : "rgba(255,255,255,0.03)",
                         border: m.done
-                          ? "1px solid rgba(22, 169, 199, 0.3)"
-                          : "1px solid rgba(255,255,255,0.06)",
-                        borderRadius: "4px",
+                          ? "1px solid rgba(22, 169, 199, 0.32)"
+                          : "1px solid rgba(255,255,255,0.07)",
+                        borderRadius: "8px",
                       }}
                     >
                       <CheckCircle2
-                        size={16}
+                        size={18}
                         style={{
                           color: m.done
                             ? "var(--sky)"
@@ -411,19 +386,27 @@ export default function TechnologySection() {
                       <div
                         style={{
                           flex: 1,
-                          fontSize: "13px",
-                          color: m.done ? "white" : "rgba(255,255,255,0.5)",
+                          fontSize: "14px",
+                          fontWeight: m.done ? 500 : 400,
+                          color: m.done ? "#ffffff" : "rgba(255,255,255,0.55)",
+                          lineHeight: "1.35",
                         }}
                       >
                         {m.name}
                       </div>
                       <div
                         style={{
-                          fontSize: "10px",
+                          fontSize: "11px",
                           fontFamily: "var(--font-mono)",
                           color: m.done
                             ? "var(--gold)"
-                            : "rgba(255,255,255,0.4)",
+                            : "rgba(255,255,255,0.45)",
+                          background: m.done
+                            ? "rgba(217, 164, 65, 0.12)"
+                            : "transparent",
+                          padding: m.done ? "3px 8px" : "0",
+                          borderRadius: "4px",
+                          whiteSpace: "nowrap",
                         }}
                       >
                         {m.time}
@@ -433,28 +416,81 @@ export default function TechnologySection() {
                 </div>
               </div>
 
-              {/* Status Bottomline */}
+              {/* Status Bottomline with Clear Badge Chips */}
               <div
+                className="tracking-status-bottomline"
                 style={{
                   display: "flex",
+                  flexWrap: "wrap",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  paddingTop: "14px",
+                  gap: "12px",
+                  paddingTop: "16px",
                   borderTop: "1px solid var(--line-light)",
-                  fontSize: "12px",
                 }}
               >
-                <div style={{ color: "rgba(255,255,255,0.7)" }}>
-                  Customs Status:{" "}
-                  <strong style={{ color: "white" }}>
-                    {current.dutyStatus}
-                  </strong>
-                </div>
                 <div
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <span
+                    style={{
+                      color: "rgba(255,255,255,0.65)",
+                      fontSize: "11px",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      fontFamily: "var(--font-mono)",
+                    }}
+                  >
+                    Customs Duty:
+                  </span>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      background: "rgba(16, 185, 129, 0.18)",
+                      border: "1px solid rgba(16, 185, 129, 0.4)",
+                      color: "#34d399",
+                      padding: "5px 12px",
+                      borderRadius: "9999px",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      fontFamily: "var(--font-mono)",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                        background: "#34d399",
+                        boxShadow: "0 0 6px #34d399",
+                      }}
+                    />
+                    {current.dutyStatus}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    background: "rgba(217, 164, 65, 0.16)",
+                    border: "1px solid rgba(217, 164, 65, 0.4)",
                     color: "var(--gold)",
+                    padding: "5px 12px",
+                    borderRadius: "9999px",
                     fontFamily: "var(--font-mono)",
                     fontSize: "11px",
+                    fontWeight: 500,
+                    letterSpacing: "0.03em",
                   }}
                 >
                   {current.status}

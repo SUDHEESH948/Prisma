@@ -1,14 +1,5 @@
 import { useState } from "react";
-import {
-  MapPin,
-  Phone,
-  Mail,
-  Clock,
-  Send,
-  CheckCircle2,
-  ShieldCheck,
-  HelpCircle,
-} from "lucide-react";
+import { MapPin, Phone, Clock, Send, CheckCircle2 } from "lucide-react";
 import { Eyebrow, Reveal } from "@/components/sections/shared";
 
 export default function Contact() {
@@ -54,7 +45,7 @@ export default function Contact() {
       </section>
 
       {/* Main Contact Section */}
-      <section className="section-light" style={{ padding: "90px 0 110px" }}>
+      <section className="section-light contact-main-section">
         <div className="container">
           <div className="contact-grid-layout">
             {/* Left: Contact Info & Port Hubs */}
@@ -62,11 +53,11 @@ export default function Contact() {
               <Eyebrow>Direct Contact</Eyebrow>
               <h2
                 style={{
-                  fontSize: "clamp(34px, 4.2vw, 54px)",
+                  fontSize: "clamp(30px, 4vw, 50px)",
                   margin: "20px 0 24px",
-                  lineHeight: "1",
+                  lineHeight: "1.05",
                   textTransform: "uppercase",
-                  letterSpacing: "-0.05em",
+                  letterSpacing: "-0.04em",
                 }}
               >
                 Headquartered at
@@ -78,7 +69,7 @@ export default function Contact() {
                   color: "var(--ink-muted)",
                   fontSize: "15px",
                   lineHeight: "1.65",
-                  marginBottom: "36px",
+                  marginBottom: "32px",
                 }}
               >
                 Conveniently located in the historical heart of Cochin port
@@ -90,17 +81,11 @@ export default function Contact() {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: "28px",
+                  gap: "20px",
                 }}
               >
                 {/* Address */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "18px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div className="contact-info-card">
                   <div
                     style={{
                       width: "42px",
@@ -120,7 +105,7 @@ export default function Contact() {
                     <h4
                       style={{
                         margin: "0 0 6px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                         textTransform: "uppercase",
                         color: "var(--deep)",
                         letterSpacing: "0.04em",
@@ -132,7 +117,7 @@ export default function Contact() {
                       style={{
                         margin: 0,
                         color: "var(--ink)",
-                        fontSize: "14px",
+                        fontSize: "13px",
                         lineHeight: "1.6",
                       }}
                     >
@@ -146,13 +131,7 @@ export default function Contact() {
                 </div>
 
                 {/* Phone Numbers */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "18px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div className="contact-info-card">
                   <div
                     style={{
                       width: "42px",
@@ -172,7 +151,7 @@ export default function Contact() {
                     <h4
                       style={{
                         margin: "0 0 6px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                         textTransform: "uppercase",
                         color: "var(--deep)",
                         letterSpacing: "0.04em",
@@ -184,7 +163,7 @@ export default function Contact() {
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "4px",
+                        gap: "6px",
                       }}
                     >
                       <a
@@ -192,7 +171,7 @@ export default function Contact() {
                         style={{
                           color: "var(--teal)",
                           fontWeight: 600,
-                          fontSize: "16px",
+                          fontSize: "15px",
                           textDecoration: "none",
                         }}
                       >
@@ -203,7 +182,7 @@ export default function Contact() {
                         style={{
                           color: "var(--teal)",
                           fontWeight: 600,
-                          fontSize: "16px",
+                          fontSize: "15px",
                           textDecoration: "none",
                         }}
                       >
@@ -214,13 +193,7 @@ export default function Contact() {
                 </div>
 
                 {/* Working Hours */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "18px",
-                    alignItems: "flex-start",
-                  }}
-                >
+                <div className="contact-info-card">
                   <div
                     style={{
                       width: "42px",
@@ -240,7 +213,7 @@ export default function Contact() {
                     <h4
                       style={{
                         margin: "0 0 6px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                         textTransform: "uppercase",
                         color: "var(--deep)",
                         letterSpacing: "0.04em",
@@ -474,14 +447,14 @@ export default function Contact() {
       </section>
 
       {/* Frequently Asked Questions */}
-      <section className="section-ocean" style={{ padding: "80px 0" }}>
+      <section className="section-ocean contact-faq-section">
         <div className="container">
           <Reveal>
             <Eyebrow light>Exim & Clearance FAQs</Eyebrow>
             <h2
               style={{
-                fontSize: "clamp(30px, 4vw, 48px)",
-                margin: "16px 0 40px",
+                fontSize: "clamp(26px, 4vw, 44px)",
+                margin: "16px 0 36px",
                 textTransform: "uppercase",
                 color: "white",
               }}
@@ -490,13 +463,7 @@ export default function Contact() {
             </h2>
           </Reveal>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "28px",
-            }}
-          >
+          <div className="faq-grid">
             <Reveal
               style={{
                 background: "rgba(255,255,255,0.08)",

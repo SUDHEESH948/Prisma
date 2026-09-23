@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react-refresh/only-export-components */
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -10,9 +10,11 @@ export const storage = {
   air: "/manus-storage/air-ocean_1ab8aa3b.jpg",
 };
 
-export function Eyebrow({ children, light = false }) {
+export function Eyebrow({ children, light = false, className = "" }) {
   return (
-    <div className={`eyebrow ${light ? "eyebrow-light" : ""}`}>
+    <div
+      className={`eyebrow ${light ? "eyebrow-light" : ""} ${className}`.trim()}
+    >
       <span className="eyebrow-dot" />
       {children}
     </div>

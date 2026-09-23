@@ -1,14 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  ShieldCheck,
-  Award,
-  CheckCircle2,
-  ArrowRight,
-  Building,
-  Users,
-  MapPin,
-  Compass,
-} from "lucide-react";
+import { ShieldCheck, Award, ArrowRight, Compass } from "lucide-react";
 import { Eyebrow, Reveal, storage } from "@/components/sections/shared";
 import WhySection from "@/components/sections/WhySection";
 import logo from "@/assets/image.png";
@@ -54,16 +45,11 @@ export default function About() {
       </section>
 
       {/* Heritage & Mission */}
-      <section className="section-light" style={{ padding: "100px 0" }}>
-        <div
-          className="container"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1.1fr 0.9fr",
-            gap: "70px",
-            alignItems: "center",
-          }}
-        >
+      <section
+        className="section-light"
+        style={{ padding: "clamp(50px, 8vw, 100px) 0" }}
+      >
+        <div className="container responsive-two-col">
           <Reveal>
             <Eyebrow>Who We Are</Eyebrow>
             <h2

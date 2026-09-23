@@ -19,16 +19,16 @@ export default function IntroSection() {
 
         <Reveal className="intro-detail">
           <p className="large-copy">
-            Founded in 2020, Prisma Shipping and Logistics has evolved to become
-            one of the most reliable, asset-backed logistics and supply chain
-            partners across India’s premier maritime gateways.
+            Empowering international cargo movements through licensed customs
+            brokerage, direct quayside berth access, and synchronized
+            multi-modal networks.
           </p>
 
           <p className="body-copy">
-            Headquartered in Cochin with operations across Cochin, Vizhinjam,
-            and Chennai, we specialize in simplifying the immense complexities
-            of international trade as Licensed Customs Brokers and multi-modal
-            freight forwarders.
+            From expedited ICEGATE appraisal and zero-delay documentation to
+            specialized transshipment and inland haulage, we engineer seamless
+            corridors connecting India’s premier maritime gateways with the
+            world.
           </p>
 
           <TextLink href="/about">Discover Prisma</TextLink>

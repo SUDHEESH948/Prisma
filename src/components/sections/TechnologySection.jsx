@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, Clock, Ship, FileCheck2 } from "lucide-react";
+import { CheckCircle2, Clock, Ship, FileCheck2, Anchor, ArrowRight } from "lucide-react";
 import { Eyebrow, Reveal } from "./shared";
 
 const sampleShipments = [
@@ -15,21 +15,30 @@ const sampleShipments = [
     dutyStatus: "Assessed & Paid via ICEGATE",
     eta: "In Transit • On Schedule",
     milestones: [
-      { name: "Factory Floor Pick-Up", done: true, time: "Day 1, 09:30 IST" },
+      {
+        name: "Factory Floor Pick-Up",
+        done: true,
+        time: "Day 1, 09:30 IST",
+        sub: "Origin CFS dispatch recorded",
+      },
       {
         name: "Inland Road Haulage to Cochin",
         done: true,
         time: "Day 1, 17:45 IST",
+        sub: "Port toll gate in-scan verified",
       },
       {
         name: "Licensed Customs Brokerage Passed",
         done: true,
         time: "Day 2, 11:15 IST",
+        sub: "Bill of Entry assessment cleared",
       },
       {
         name: "Vessel Berthing & Container Loaded",
         done: false,
+        active: true,
         time: "Day 3, Estimated",
+        sub: "Berth scheduled at Terminal 2",
       },
     ],
   },
@@ -48,21 +57,25 @@ const sampleShipments = [
         name: "Mainline Vessel Discharge",
         done: true,
         time: "Day 1, 04:00 IST",
+        sub: "Container unloaded to yard",
       },
       {
         name: "Transshipment Documentation Cleared",
         done: true,
         time: "Day 1, 10:20 IST",
+        sub: "EDI transfer manifest filed",
       },
       {
         name: "Feeder Connecting Vessel Staged",
         done: true,
         time: "Day 1, 19:30 IST",
+        sub: "Gantry crane loading complete",
       },
       {
         name: "Outward Sailing to Gulf Port",
         done: true,
         time: "Day 2, 06:10 IST",
+        sub: "Pilot discharged, vessel underway",
       },
     ],
   },
@@ -73,432 +86,250 @@ export default function TechnologySection() {
   const current = sampleShipments[activeIdx];
 
   return (
-    <section
-      className="technology-section section-ink"
-      style={{ padding: "clamp(60px, 8vw, 120px) 0" }}
-    >
-      <div className="container technology-grid">
-        <Reveal>
-          <Eyebrow light>Shipment Visibility & Compliance</Eyebrow>
+    <section className="relative overflow-hidden bg-[#06121e] py-20 text-white md:py-28">
+      {/* Background radial glow for natural depth */}
+      <div className="pointer-events-none absolute -left-48 top-1/4 h-96 w-96 rounded-full bg-cyan-500/10 blur-[120px]" />
+      <div className="pointer-events-none absolute -right-48 bottom-10 h-96 w-96 rounded-full bg-blue-600/10 blur-[140px]" />
 
-          <h2
-            style={{
-              fontSize: "clamp(38px, 5.2vw, 76px)",
-              margin: "24px 0 20px",
-              textTransform: "uppercase",
-              lineHeight: "0.95",
-              letterSpacing: "-0.05em",
-            }}
-          >
-            Real-Time Tracking,
-            <br />
-            <i>Direct Port Visibility.</i>
-          </h2>
+      <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
+          {/* Left Column: Context & Core Guarantees */}
+          <div className="lg:col-span-5">
+            <Reveal>
+              <Eyebrow light>Shipment Visibility & Compliance</Eyebrow>
 
-          <p
-            style={{
-              color: "rgba(255, 255, 255, 0.72)",
-              fontSize: "16px",
-              lineHeight: "1.6",
-              marginBottom: "32px",
-              maxWidth: "520px",
-            }}
-          >
-            Complete operational oversight from factory dispatch through ICEGATE
-            customs appraisal to final vessel departure at Cochin, Vizhinjam,
-            and Chennai.
-          </p>
+              <h2 className="mt-4 font-serif text-3xl font-light uppercase leading-[1.05] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
+                Real-Time Tracking,
+                <br />
+                <span className="italic text-cyan-400">Direct Port Visibility.</span>
+              </h2>
 
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                color: "white",
-                fontSize: "14px",
-              }}
-            >
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  background: "rgba(22, 169, 199, 0.15)",
-                  color: "var(--sky)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FileCheck2 size={18} />
+              <p className="mt-6 text-sm leading-relaxed text-slate-300 md:text-base">
+                Operational oversight from factory dispatch through ICEGATE
+                customs appraisal to vessel departure at Cochin, Vizhinjam, and
+                Chennai gateways.
+              </p>
+
+              <div className="mt-10 space-y-5">
+                {[
+                  {
+                    icon: FileCheck2,
+                    title: "Direct ICEGATE & EDI Integration",
+                    desc: "Automated Bill of Entry tracking and customs duty reconciliation.",
+                  },
+                  {
+                    icon: Clock,
+                    title: "Pre-Arrival Documentation",
+                    desc: "Advance filing to prevent detention and port demurrage charges.",
+                  },
+                  {
+                    icon: Ship,
+                    title: "Gateway Berth Oversight",
+                    desc: "Direct coordination with quayside operators and feeder vessels.",
+                  },
+                ].map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={idx} className="group flex items-start gap-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-500/20 bg-cyan-950/40 text-cyan-400 transition-colors duration-300 group-hover:border-cyan-400/50 group-hover:bg-cyan-500/20">
+                        <Icon size={19} strokeWidth={1.8} />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-white">
+                          {item.title}
+                        </h4>
+                        <p className="mt-0.5 text-xs text-slate-400">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-              <span>Direct ICEGATE & EDI Clearance Integration</span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                color: "white",
-                fontSize: "14px",
-              }}
-            >
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  background: "rgba(22, 169, 199, 0.15)",
-                  color: "var(--sky)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Clock size={18} />
-              </div>
-              <span>Immediate Pre-Arrival Documentation Updates</span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                color: "white",
-                fontSize: "14px",
-              }}
-            >
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50%",
-                  background: "rgba(22, 169, 199, 0.15)",
-                  color: "var(--sky)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Ship size={18} />
-              </div>
-              <span>Single Point of Contact for All Gateway Movements</span>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Interactive Tracking Portal Demo */}
-        <Reveal
-          style={{
-            background: "rgba(7, 26, 46, 0.85)",
-            border: "1px solid var(--line-light)",
-            borderRadius: "8px",
-            padding: "28px",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.5)",
-          }}
-        >
-          {/* Top Bar */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: "1px solid var(--line-light)",
-              paddingBottom: "16px",
-              marginBottom: "20px",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span
-                style={{
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "50%",
-                  background: "#10b981",
-                  boxShadow: "0 0 8px #10b981",
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "11px",
-                  letterSpacing: "0.1em",
-                  color: "white",
-                  textTransform: "uppercase",
-                }}
-              >
-                Active Consignment Track
-              </span>
-            </div>
-
-            <div style={{ display: "flex", gap: "8px" }}>
-              {sampleShipments.map((s, idx) => (
-                <button
-                  key={s.id}
-                  onClick={() => setActiveIdx(idx)}
-                  style={{
-                    padding: "4px 10px",
-                    background:
-                      activeIdx === idx
-                        ? "var(--teal)"
-                        : "rgba(255,255,255,0.08)",
-                    color: "white",
-                    fontSize: "10px",
-                    fontFamily: "var(--font-mono)",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    transition: "all 0.2s",
-                  }}
-                >
-                  {s.id.split("-")[1]}
-                </button>
-              ))}
-            </div>
+            </Reveal>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
-              {/* Header Info */}
-              <div className="tracking-header-grid">
-                <div>
-                  <div
-                    style={{
-                      fontSize: "10px",
-                      color: "var(--sky)",
-                      fontFamily: "var(--font-mono)",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    Booking / Reference
+          {/* Right Column: Live Tracking Console */}
+          <div className="lg:col-span-7">
+            <Reveal>
+              <div className="relative overflow-hidden rounded-2xl border border-slate-700/60 bg-[#0a1a2b]/90 shadow-2xl backdrop-blur-xl">
+                {/* Console Top Toolbar */}
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/50 px-6 py-4">
+                  <div className="flex items-center gap-2.5">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    </span>
+                    <span className="font-mono text-xs uppercase tracking-wider text-slate-300">
+                      Live Consignment Telemetry
+                    </span>
                   </div>
-                  <div
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: 600,
-                      color: "white",
-                      marginTop: "2px",
-                    }}
-                  >
-                    {current.id}
-                  </div>
-                  <div
-                    style={{ fontSize: "11px", opacity: 0.7, marginTop: "2px" }}
-                  >
-                    {current.mode}
+
+                  {/* Consignment Switcher */}
+                  <div className="flex rounded-lg border border-slate-700/60 bg-slate-900/60 p-1">
+                    {sampleShipments.map((s, idx) => {
+                      const portTag = s.id.split("-")[1];
+                      return (
+                        <button
+                          key={s.id}
+                          onClick={() => setActiveIdx(idx)}
+                          className={`rounded px-3 py-1 font-mono text-xs transition-all ${
+                            activeIdx === idx
+                              ? "bg-cyan-500/20 text-cyan-300 shadow-sm"
+                              : "text-slate-400 hover:text-white"
+                          }`}
+                        >
+                          {portTag}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
-                <div>
-                  <div
-                    style={{
-                      fontSize: "10px",
-                      color: "var(--sky)",
-                      fontFamily: "var(--font-mono)",
-                      textTransform: "uppercase",
-                    }}
+                {/* Animated Body */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={current.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12 }}
+                    transition={{ duration: 0.28, ease: "easeOut" }}
+                    className="p-6 md:p-8"
                   >
-                    Routing Gateways
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: 500,
-                      color: "white",
-                      marginTop: "2px",
-                    }}
-                  >
-                    {current.origin} → {current.destination}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "11px",
-                      color: "var(--gold)",
-                      marginTop: "2px",
-                    }}
-                  >
-                    {current.vessel}
-                  </div>
-                </div>
-              </div>
-
-              {/* Milestones Flow with Motion */}
-              <div style={{ marginBottom: "24px" }}>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    fontFamily: "var(--font-mono)",
-                    color: "rgba(255,255,255,0.6)",
-                    textTransform: "uppercase",
-                    marginBottom: "12px",
-                  }}
-                >
-                  Milestone Status
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                  }}
-                >
-                  {current.milestones.map((m, i) => (
-                    <motion.div
-                      key={m.name}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.08, duration: 0.3 }}
-                      className="milestone-status-row"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "14px",
-                        padding: "14px 16px",
-                        background: m.done
-                          ? "rgba(8, 126, 153, 0.16)"
-                          : "rgba(255,255,255,0.03)",
-                        border: m.done
-                          ? "1px solid rgba(22, 169, 199, 0.32)"
-                          : "1px solid rgba(255,255,255,0.07)",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <CheckCircle2
-                        size={18}
-                        style={{
-                          color: m.done
-                            ? "var(--sky)"
-                            : "rgba(255,255,255,0.3)",
-                          flexShrink: 0,
-                        }}
-                      />
-                      <div
-                        style={{
-                          flex: 1,
-                          fontSize: "14px",
-                          fontWeight: m.done ? 500 : 400,
-                          color: m.done ? "#ffffff" : "rgba(255,255,255,0.55)",
-                          lineHeight: "1.35",
-                        }}
-                      >
-                        {m.name}
+                    {/* Shipment Meta Card */}
+                    <div className="grid grid-cols-1 gap-4 rounded-xl border border-slate-700/40 bg-slate-900/40 p-5 sm:grid-cols-2">
+                      <div>
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-cyan-400">
+                          Booking ID / Reference
+                        </span>
+                        <div className="mt-1 flex items-center gap-2">
+                          <span className="font-mono text-lg font-semibold tracking-tight text-white">
+                            {current.id}
+                          </span>
+                        </div>
+                        <span className="text-xs text-slate-400">
+                          {current.mode} &bull; {current.bl}
+                        </span>
                       </div>
-                      <div
-                        style={{
-                          fontSize: "11px",
-                          fontFamily: "var(--font-mono)",
-                          color: m.done
-                            ? "var(--gold)"
-                            : "rgba(255,255,255,0.45)",
-                          background: m.done
-                            ? "rgba(217, 164, 65, 0.12)"
-                            : "transparent",
-                          padding: m.done ? "3px 8px" : "0",
-                          borderRadius: "4px",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {m.time}
+
+                      <div>
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-cyan-400">
+                          Corridor & Vessel
+                        </span>
+                        <div className="mt-1 flex items-center gap-2 text-sm font-medium text-white">
+                          <span>{current.origin}</span>
+                          <ArrowRight size={13} className="text-cyan-400" />
+                          <span>{current.destination}</span>
+                        </div>
+                        <div className="mt-1 flex items-center gap-1.5 text-xs text-amber-300/90">
+                          <Anchor size={12} />
+                          <span>{current.vessel}</span>
+                        </div>
                       </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
+                    </div>
 
-              {/* Status Bottomline with Clear Badge Chips */}
-              <div
-                className="tracking-status-bottomline"
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: "12px",
-                  paddingTop: "16px",
-                  borderTop: "1px solid var(--line-light)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <span
-                    style={{
-                      color: "rgba(255,255,255,0.65)",
-                      fontSize: "11px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                      fontFamily: "var(--font-mono)",
-                    }}
-                  >
-                    Customs Duty:
-                  </span>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      background: "rgba(16, 185, 129, 0.18)",
-                      border: "1px solid rgba(16, 185, 129, 0.4)",
-                      color: "#34d399",
-                      padding: "5px 12px",
-                      borderRadius: "9999px",
-                      fontSize: "11px",
-                      fontWeight: 600,
-                      fontFamily: "var(--font-mono)",
-                      letterSpacing: "0.02em",
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: "6px",
-                        height: "6px",
-                        borderRadius: "50%",
-                        background: "#34d399",
-                        boxShadow: "0 0 6px #34d399",
-                      }}
-                    />
-                    {current.dutyStatus}
-                  </span>
-                </div>
+                    {/* Natural Vertical Timeline */}
+                    <div className="mt-8">
+                      <div className="mb-4 flex items-center justify-between">
+                        <span className="font-mono text-[11px] uppercase tracking-widest text-slate-400">
+                          Operational Milestones
+                        </span>
+                        <span className="font-mono text-[11px] text-cyan-400">
+                          {current.eta}
+                        </span>
+                      </div>
 
-                <div
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    background: "rgba(217, 164, 65, 0.16)",
-                    border: "1px solid rgba(217, 164, 65, 0.4)",
-                    color: "var(--gold)",
-                    padding: "5px 12px",
-                    borderRadius: "9999px",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "11px",
-                    fontWeight: 500,
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  {current.status}
-                </div>
+                      <div className="relative pl-7">
+                        {/* Continuous Vertical Timeline Line */}
+                        <div className="absolute bottom-3 left-[11px] top-3 w-[2px] bg-slate-700/60" />
+
+                        <div className="space-y-6">
+                          {current.milestones.map((m, i) => (
+                            <motion.div
+                              key={m.name}
+                              initial={{ opacity: 0, x: -8 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: i * 0.06 }}
+                              className="relative"
+                            >
+                              {/* Step Node Marker */}
+                              <div className="absolute -left-7 top-1 flex items-center justify-center">
+                                {m.done ? (
+                                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-950 ring-4 ring-[#0a1a2b]">
+                                    <CheckCircle2
+                                      size={18}
+                                      className="text-cyan-400"
+                                    />
+                                  </div>
+                                ) : m.active ? (
+                                  <div className="relative flex h-6 w-6 items-center justify-center rounded-full bg-amber-400/20 ring-4 ring-[#0a1a2b]">
+                                    <span className="absolute h-3 w-3 animate-ping rounded-full bg-amber-400 opacity-75" />
+                                    <span className="h-2 w-2 rounded-full bg-amber-400" />
+                                  </div>
+                                ) : (
+                                  <div className="h-2.5 w-2.5 rounded-full border border-slate-500 bg-slate-800 ring-4 ring-[#0a1a2b]" />
+                                )}
+                              </div>
+
+                              {/* Step Content */}
+                              <div className="flex flex-col justify-between sm:flex-row sm:items-baseline">
+                                <div>
+                                  <div
+                                    className={`text-sm font-medium ${
+                                      m.done
+                                        ? "text-white"
+                                        : m.active
+                                        ? "text-amber-200"
+                                        : "text-slate-400"
+                                    }`}
+                                  >
+                                    {m.name}
+                                  </div>
+                                  <p className="mt-0.5 text-xs text-slate-400">
+                                    {m.sub}
+                                  </p>
+                                </div>
+
+                                <span
+                                  className={`mt-1 font-mono text-xs sm:mt-0 ${
+                                    m.done
+                                      ? "text-slate-300"
+                                      : m.active
+                                      ? "text-amber-300 font-semibold"
+                                      : "text-slate-400"
+                                  }`}
+                                >
+                                  {m.time}
+                                </span>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Natural Status Badges Bar */}
+                    <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-slate-700/60 pt-5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
+                          Customs:
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] font-medium text-emerald-300">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                          {current.dutyStatus}
+                        </span>
+                      </div>
+
+                      <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 font-mono text-[11px] font-medium text-cyan-300">
+                        {current.status}
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </Reveal>
+            </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   );

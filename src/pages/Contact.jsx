@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Phone, Clock, Send, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react";
 import { Eyebrow, Reveal } from "@/components/sections/shared";
 
 export default function Contact() {
@@ -18,6 +18,34 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const subject = encodeURIComponent(
+      `New Inquiry: ${formData.service} - ${formData.name || "Client"}`
+    );
+
+    const bodyText = `
+Cargo & Rate Inquiry Details
+========================================
+Full Name: ${formData.name}
+Company Name: ${formData.company || "N/A"}
+Phone Number: ${formData.phone}
+Email Address: ${formData.email}
+Required Service: ${formData.service}
+Origin Port / City: ${formData.origin || "Not specified"}
+Destination Port / City: ${formData.destination || "Not specified"}
+
+Cargo Description / Specific Requirements:
+${formData.message || "No additional notes provided."}
+========================================
+    `.trim();
+
+    const mailtoUrl = `mailto:raj@prismashipping.in?subject=${subject}&body=${encodeURIComponent(
+      bodyText
+    )}`;
+
+    // Open user's default email client with all filled data
+    window.location.href = mailtoUrl;
+
     setSubmitted(true);
   };
 
@@ -192,6 +220,51 @@ export default function Contact() {
                   </div>
                 </div>
 
+                {/* Email Inquiries */}
+                <div className="contact-info-card">
+                  <div
+                    style={{
+                      width: "42px",
+                      height: "42px",
+                      borderRadius: "8px",
+                      background: "var(--soft-sky)",
+                      color: "var(--teal)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Mail size={20} />
+                  </div>
+                  <div>
+                    <h4
+                      style={{
+                        margin: "0 0 6px",
+                        fontSize: "14px",
+                        textTransform: "uppercase",
+                        color: "var(--deep)",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      Operational Enquiries
+                    </h4>
+                    <div>
+                      <a
+                        href="mailto:raj@prismashipping.in"
+                        style={{
+                          color: "var(--teal)",
+                          fontWeight: 600,
+                          fontSize: "15px",
+                          textDecoration: "none",
+                        }}
+                      >
+                        raj@prismashipping.in
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Working Hours */}
                 <div className="contact-info-card">
                   <div
@@ -231,8 +304,7 @@ export default function Contact() {
                     >
                       Monday – Saturday: 9:00 AM – 7:00 PM IST
                       <br />
-                      24/7 on-call desk for vessel berthing & emergency
-                      clearance
+                      24/7 on-call desk for vessel berthing & emergency clearance
                     </p>
                   </div>
                 </div>
@@ -255,7 +327,7 @@ export default function Contact() {
                       marginBottom: "12px",
                     }}
                   >
-                    Inquiry Received
+                    Inquiry Generated
                   </h3>
                   <p
                     style={{
@@ -266,17 +338,43 @@ export default function Contact() {
                       margin: "0 auto 26px",
                     }}
                   >
-                    Thank you, <strong>{formData.name}</strong>. Our Licensed
-                    Customs Broker and freight desk will review your details and
-                    contact you shortly.
+                    Thank you, <strong>{formData.name}</strong>. Your email client
+                    has been opened with your inquiry pre-filled for{" "}
+                    <strong>raj@prismashipping.in</strong>. If it didn't open
+                    automatically, click the button below.
                   </p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="btn-primary"
-                    style={{ width: "auto", margin: "0 auto" }}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
+                    }}
                   >
-                    Submit Another Inquiry
-                  </button>
+                    <a
+                      href={`mailto:raj@prismashipping.in?subject=${encodeURIComponent(
+                        `Inquiry: ${formData.service} -${formData.name}`
+                      )}&body=${encodeURIComponent(
+                        `Name: ${formData.name}\nPhone:${formData.phone}\nService: ${formData.service}\nDetails:${formData.message}`
+                      )}`}
+                      className="btn-primary"
+                      style={{ textDecoration: "none", width: "auto" }}
+                    >
+                      Resend Email
+                    </a>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="btn-primary"
+                      style={{
+                        width: "auto",
+                        background: "transparent",
+                        border: "1px solid var(--teal)",
+                        color: "var(--teal)",
+                      }}
+                    >
+                      Submit Another Inquiry
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
@@ -298,8 +396,8 @@ export default function Contact() {
                         margin: 0,
                       }}
                     >
-                      Provide your shipment requirements for a prompt, tailored
-                      proposal.
+                      Fill in your shipment specs to generate a direct email to
+                      our operations desk.
                     </p>
                   </div>
 
@@ -437,7 +535,7 @@ export default function Contact() {
                   </div>
 
                   <button type="submit" className="btn-primary">
-                    <Send size={16} /> Send Inquiry to Operations Desk
+                    <Send size={16} /> Send Email to Operations Desk
                   </button>
                 </form>
               )}
